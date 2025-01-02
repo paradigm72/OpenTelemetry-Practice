@@ -39,5 +39,6 @@ def roll():
     with tracer.start_as_current_span("roll") as rollspan:
         res = randint(1, 6)
         rollspan.set_attribute("roll.value", res)
+        rollspan.set_attribute("roll.crit", 1 if res == 6 else 0)
         roll_counter.add(1, {"roll.value": res})
         return res
