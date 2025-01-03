@@ -19,3 +19,17 @@ From code:
 ```
 rollspan.record_exception(Exception("Critical fail!"))
 ```
+
+Start the collector (in a Docker container) with:
+```
+docker run -p 4317:4317 \
+    -v /tmp/otel-collector-config.yaml:/etc/otel-collector-config.yaml \           
+    otel/opentelemetry-collector:latest \
+    --config=/etc/otel-collector-config.yaml
+```
+
+Start the Flask web server with:
+```
+export OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
+opentelemetry-instrument --logs_exporter otlp flask run -p 8080
+```
