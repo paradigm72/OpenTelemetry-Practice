@@ -43,6 +43,10 @@ def roll():
         roll_counter.add(1, {"roll.value": res})
 
         if (res == 1):
-            rollspan.record_exception(Exception("Critical fail!"))
+            try:
+                raise AssertionError("The player rolled a 1!")
+            except AssertionError as e:
+                rollspan.record_exception(e, attributes={"roll.value": 1})
+                rollspan.set_status(trace.status.Status(trace.status.StatusCode.ERROR, str(e)))
 
         return res
