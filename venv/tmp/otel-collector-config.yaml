@@ -18,11 +18,11 @@ service:
       receivers: [otlp]
       exporters: [debug]
       processors: [batch]
-    metrics:
-      receivers: [otlp]
-      exporters: [debug]
-      processors: [batch]
-    logs:
-      receivers: [otlp]
-      exporters: [debug]
-      processors: [batch]
+    #metrics:
+    #  receivers: [otlp]
+    #  exporters: [debug]
+    #  processors: [batch]
+    #logs:
+    #  receivers: [otlp]
+    #  exporters: [debug]
+    #  processors: [batch]
