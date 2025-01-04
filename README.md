@@ -22,6 +22,7 @@ rollspan.record_exception(Exception("Critical fail!"))
 
 Start the collector (in a Docker container) with:
 ```
+cp ~/Code/OTel/venv/tmp/otel-collector-config.yaml /tmp/otel-collector-config.yaml
 docker run -p 4317:4317 \
     -v /tmp/otel-collector-config.yaml:/etc/otel-collector-config.yaml \           
     otel/opentelemetry-collector:latest \
