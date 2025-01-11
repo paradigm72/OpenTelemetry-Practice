@@ -34,3 +34,8 @@ Start the Flask web server with:
 export OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
 opentelemetry-instrument --logs_exporter otlp flask run -p 8080
 ```
+
+Start the Prometheus scraper with:
+```
+docker run --rm -v ${PWD}/prometheus.yml:/prometheus/prometheus.yml -p 9090:9090 prom/prometheus --enable-feature=otlp-write-receive
+```
