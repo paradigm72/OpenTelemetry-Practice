@@ -17,6 +17,12 @@ roll_counter = meter.create_counter(
     description="The number of rolls by roll value",
 )
 
+# Create a counter to track some stats about the rolls
+crit_counter = meter.create_counter(
+    "dice.crits",
+    description="The number of critical success rolls",
+)
+
 app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -36,25 +42,25 @@ def roll_dice():
 def roll():
     # This creates a new span that's the child of the current one
     with tracer.start_as_current_span("roll") as rollspan:
-        hasAdvantage = randint(0, 2)
-        if hasAdvantage == 2:  # one-third of the time
-            res = roll1 = roll2 = randint(1, 20)
-            rawRollsDict = { "res": res}
-            
-        else:
+        hasAdvantage = (randint(0, 2) == 2)
+        if hasAdvantage:  #one-third of the time
             roll1 = randint(1, 20)
             roll2 = randint(1, 20)
             res = max(roll1, roll2)
             rawRollsDict = { "roll1": roll1, "roll2": roll2}
             if (roll1 == roll2):
                 rollspan.set_attribute("roll.tag", "Both rolls were the same; isn't that interesting?")
+        else:
+            res = roll1 = roll2 = randint(1, 20)
+            rawRollsDict = { "res": res}
 
         # store the raw rolls, which could be 1 or 2 values in a serialized dictionary
         rawRolls = json.dumps(rawRollsDict)
         rollspan.set_attribute("roll.rawRolls", rawRolls)
 
         rollspan.set_attribute("roll.value", res)
-        rollspan.set_attribute("roll.crit", 1 if res == 20 else 0)
+        if res == 20:
+            crit_counter.add(1, {"roll.rolledWithAdvantage": hasAdvantage})
         rollspan.set_attribute("roll.rolledWithAdvantage", hasAdvantage)
         roll_counter.add(1, {"roll.value": res})
 
