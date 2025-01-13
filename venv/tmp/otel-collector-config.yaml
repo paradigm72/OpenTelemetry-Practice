@@ -23,7 +23,7 @@ service:
       processors: [batch]
     metrics:
       receivers: [otlp]
-      exporters: [debug]
+      exporters: [prometheus]
       processors: [batch]
     logs:
       receivers: [otlp]
