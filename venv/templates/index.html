@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask DOM Append Example</title>
+    <script>
+        let rollTimer;
+        // Function to append content to the DOM
+        rollTheDice = function rollTheDice() {
+            fetch('/rolldice')
+                .then(response => {
+                    return response.text();
+                }).then(text => {
+                    // Create a new paragraph element
+                    const newParagraph = document.createElement('p');
+                    // Set the text content to the data from the server
+                    newParagraph.textContent = text;
+                    // Append the new paragraph to the content div
+                    document.getElementById('content').appendChild(newParagraph);
+                })
+                .catch(error => console.error('Error:', error));
+            };
+        function startRolling() {
+            rollTimer = setInterval(rollTheDice, 1000);
+        }
+        function stopRolling() {
+            clearInterval(rollTimer);
+        }
+    </script>
+</head>
+<body>
+    <h1>Periodic Dice Roller</h1>
+    <button onclick="startRolling()">Start Rolling</button><button onclick="stopRolling()">Stop Rolling</button>
+    <div id="content">
+        <p>This page will start rolling dice periodically, to better create synthetic OTel data</p>
+    </div>
+    
+</body>
+</html>

@@ -1,5 +1,5 @@
 from random import randint
-from flask import Flask, request
+from flask import Flask, request, render_template, jsonify
 from opentelemetry import trace
 from opentelemetry import metrics
 import logging
@@ -27,6 +27,9 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+@app.route("/")
+def index():
+    return render_template('index.html')
 
 @app.route("/rolldice")
 def roll_dice():
@@ -37,7 +40,6 @@ def roll_dice():
     else:
         logger.warning("Anonymous player is rolling the dice: %s", result)
     return result
-
 
 def roll():
     # This creates a new span that's the child of the current one
