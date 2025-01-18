@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flask DOM Append Example</title>
+    <title>Observable Dice Roller</title>
     <script>
         let rollTimer;
         // Function to append content to the DOM
@@ -22,7 +22,7 @@
                 .catch(error => console.error('Error:', error));
             };
         function startRolling() {
-            rollTimer = setInterval(rollTheDice, 1000);
+            rollTimer = setInterval(rollTheDice, 100);
         }
         function stopRolling() {
             clearInterval(rollTimer);
@@ -35,6 +35,5 @@
     <div id="content">
         <p>This page will start rolling dice periodically, to better create synthetic OTel data</p>
     </div>
-    
 </body>
 </html>
