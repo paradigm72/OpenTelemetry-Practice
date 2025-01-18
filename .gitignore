@@ -3,3 +3,4 @@
 
 # Git
 .gitattributes
+/venv/lib

@@ -2,8 +2,12 @@ from random import randint
 from flask import Flask, request, render_template, jsonify
 from opentelemetry import trace
 from opentelemetry import metrics
+from opentelemetry.metrics import Observation
 import logging
 import json
+
+success_count_this_session = 0;
+failure_count_this_session = 0;
 
 # Acquire a tracer
 tracer = trace.get_tracer("diceroller.tracer")
@@ -23,6 +27,25 @@ crit_counter = meter.create_counter(
     description="The number of critical success rolls",
 )
 
+def success_rate_callback(options):
+    try:
+        total = success_count_this_session + failure_count_this_session
+        if total > 0:
+            return [Observation(success_count_this_session / total)]
+        else:
+            return [Observation(0)]
+    except Exception as e:
+        logger.error(f"Error in success_rate_callback: {e}")
+        return [Observation(0)]
+
+# Create a gauge to expose different visualization
+roll_success_gauge = meter.create_observable_gauge(
+    name="dice.roll_success_gauge",
+    description="How often the rolls were likely successful",
+    unit="1",
+    callbacks=[success_rate_callback]
+)
+
 app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -31,8 +54,13 @@ logger = logging.getLogger(__name__)
 def index():
     return render_template('index.html')
 
+if __name__ == '__main__':
+    # Enable debug mode
+    app.run(debug=True)
+
 @app.route("/rolldice")
 def roll_dice():
+    global success_count_this_session, failure_count_this_session
     player = request.args.get('player', default=None, type=str)
     result = str(roll())
     if player:
@@ -42,6 +70,8 @@ def roll_dice():
     return result
 
 def roll():
+    global success_count_this_session, failure_count_this_session
+
     # This creates a new span that's the child of the current one
     with tracer.start_as_current_span("roll") as rollspan:
         hasAdvantage = (randint(0, 2) == 2)
@@ -64,6 +94,10 @@ def roll():
         if res == 20:
             crit_counter.add(1, {"roll.rolledWithAdvantage": hasAdvantage})
         rollspan.set_attribute("roll.rolledWithAdvantage", hasAdvantage)
+        if res >= 15:
+            success_count_this_session += 1
+        else:
+            failure_count_this_session += 1
         roll_counter.add(1, {"roll.value": res})
 
         try:
