@@ -37,5 +37,5 @@ opentelemetry-instrument --logs_exporter otlp flask run -p 8080
 
 Start the Prometheus scraper with:
 ```
-docker run --rm -v ${PWD}/prometheus.yml:/prometheus/prometheus.yml -p 9090:9090 prom/prometheus --enable-feature=otlp-write-receive
+docker run --rm -v ${PWD}/prometheus.yml:/prometheus/prometheus.yml -v ${PWD}/rules.yml:/prometheus/rules.yml -p 9090:9090 prom/prometheus --enable-feature=otlp-write-receive --log.level=debug
 ```
