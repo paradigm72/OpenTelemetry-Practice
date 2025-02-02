@@ -1,0 +1,11 @@
+groups:
+  - name: dice_roll_alerts
+    rules:
+      - alert: HighDiceRollSuccessRatio
+        expr: dice_roll_success_gauge_ratio > 0.35
+        for: 15s
+        labels:
+          severity: warning
+        annotations:
+          summary: "High Dice Roll Success Ratio"
+          description: "The dice roll success ratio has been above 35% for more than 15 seconds."
