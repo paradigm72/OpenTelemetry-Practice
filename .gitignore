@@ -4,3 +4,8 @@
 # Git
 .gitattributes
 /venv/lib
+/venv/grafana-v11.5.2/*
+!/venv/grafana-v11.5.2/conf/
+/venv/grafana-v11.5.2/conf/*
+!/venv/grafana-v11.5.2/conf/provisioning
+venv/grafana-enterprise-11.5.2.darwin-amd64.tar.gz
