@@ -144,7 +144,8 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "continuous-GrYlRd"
+            "fixedColor": "blue",
+            "mode": "shades"
           },
           "mappings": [],
           "thresholds": {
@@ -363,6 +364,6 @@
   "timezone": "browser",
   "title": "Dice Roller Grafana Dashboard",
   "uid": "fef9cffxo27swf",
-  "version": 15,
+  "version": 16,
   "weekStart": ""
 }
