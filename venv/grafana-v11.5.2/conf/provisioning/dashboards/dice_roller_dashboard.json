@@ -206,9 +206,27 @@
       "type": "gauge"
     },
     {
-      "description": "Whether the players seem to be succeeding on their checks too often",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cef9c3vg1jklcf"
+      },
+      "description": "How many times d20 checks have happened in the lifetime of the app",
       "fieldConfig": {
-        "defaults": {},
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "purple",
+                "value": null
+              }
+            ]
+          }
+        },
         "overrides": []
       },
       "gridPos": {
@@ -217,28 +235,40 @@
         "x": 0,
         "y": 8
       },
-      "id": 3,
+      "id": 5,
       "options": {
-        "alertInstanceLabelFilter": "",
-        "alertName": "",
-        "dashboardAlerts": false,
-        "groupBy": [],
-        "groupMode": "default",
-        "maxItems": 20,
-        "showInactiveAlerts": false,
-        "sortOrder": 1,
-        "stateFilter": {
-          "error": true,
-          "firing": true,
-          "noData": false,
-          "normal": false,
-          "pending": true
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
         },
-        "viewMode": "list"
+        "showPercentChange": false,
+        "textMode": "value",
+        "wideLayout": true
       },
       "pluginVersion": "11.5.2",
-      "title": "Success Rate Too High",
-      "type": "alertlist"
+      "targets": [
+        {
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "sum(dice_rolls_total)",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "legendFormat": "{{label_name}}",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Total Dice Rolls",
+      "type": "stat"
     },
     {
       "datasource": {
@@ -347,6 +377,41 @@
       ],
       "title": "Crit Rate",
       "type": "stat"
+    },
+    {
+      "description": "Whether the players seem to be succeeding on their checks too often",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 0,
+        "y": 12
+      },
+      "id": 3,
+      "options": {
+        "alertInstanceLabelFilter": "",
+        "alertName": "",
+        "dashboardAlerts": false,
+        "groupBy": [],
+        "groupMode": "default",
+        "maxItems": 20,
+        "showInactiveAlerts": false,
+        "sortOrder": 1,
+        "stateFilter": {
+          "error": true,
+          "firing": true,
+          "noData": false,
+          "normal": false,
+          "pending": true
+        },
+        "viewMode": "list"
+      },
+      "pluginVersion": "11.5.2",
+      "title": "Success Rate Too High",
+      "type": "alertlist"
     }
   ],
   "preload": false,
@@ -364,6 +429,6 @@
   "timezone": "browser",
   "title": "Dice Roller Grafana Dashboard",
   "uid": "fef9cffxo27swf",
-  "version": 16,
+  "version": 17,
   "weekStart": ""
 }
