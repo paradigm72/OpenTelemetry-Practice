@@ -35,7 +35,12 @@ export OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
 opentelemetry-instrument --logs_exporter otlp flask run -p 8080
 ```
 
-Start the Prometheus scraper with:
+Start the Prometheus scraper (at localhost:9090/) with:
 ```
 docker run --rm -v ${PWD}/prometheus.yml:/prometheus/prometheus.yml -v ${PWD}/rules.yml:/prometheus/rules.yml -p 9090:9090 prom/prometheus --enable-feature=otlp-write-receive --log.level=debug
+```
+
+Start the Grafana server (at http://localhost:3000/) with:
+```
+./grafana server
 ```
