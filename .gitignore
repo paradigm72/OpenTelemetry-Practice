@@ -3,6 +3,7 @@
 
 # Git
 .gitattributes
+/venv/bin
 /venv/lib
 /venv/grafana-v11.5.2/*
 !/venv/grafana-v11.5.2/conf/
