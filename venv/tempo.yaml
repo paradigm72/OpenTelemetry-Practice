@@ -1,0 +1,20 @@
+server:
+  http_listen_port: 3200
+distributor:
+  receivers:
+    jaeger:
+      protocols:
+        grpc:
+          endpoint: 0.0.0.0:14250
+        thrift_http:
+          endpoint: 0.0.0.0:14268
+ingester:
+  lifecycler:
+    ring:
+      kvstore:
+        store: inmemory
+storage:
+  trace:
+    backend: local
+    local:
+      path: /tmp/tempo/traces
