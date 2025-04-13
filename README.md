@@ -44,3 +44,8 @@ Start the Grafana server (at http://localhost:3000/) with:
 ```
 ./grafana server
 ```
+
+Start the Tempo service (at http://localhost:3200) with:
+```
+docker run --name=tempo -p 3200:3200 -v $(pwd)/tempo.yaml:/etc/tempo/tempo.yaml grafana/tempo:latest --config.file=/etc/tempo/tempo.yaml
+```

@@ -3,6 +3,8 @@ from flask import Flask, request, render_template, jsonify
 from opentelemetry import trace
 from opentelemetry import metrics
 from opentelemetry.metrics import Observation
+from opentelemetry.sdk.resources import Resource
+from opentelemetry.sdk.trace import TracerProvider
 import logging
 import json
 
@@ -10,6 +12,10 @@ success_count_this_session = 0;
 failure_count_this_session = 0;
 
 # Acquire a tracer
+resource = Resource(attributes={
+    "service.name": "diceroller"
+})
+trace.set_tracer_provider(TracerProvider(resource=resource))
 tracer = trace.get_tracer("diceroller.tracer")
 
 # Acquire a meter

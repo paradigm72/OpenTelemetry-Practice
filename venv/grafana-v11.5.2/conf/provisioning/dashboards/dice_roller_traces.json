@@ -27,58 +27,7 @@
         "uid": "aei3rrzw7rj0gc"
       },
       "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
+        "defaults": {},
         "overrides": []
       },
       "gridPos": {
@@ -89,16 +38,17 @@
       },
       "id": 1,
       "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
+        "spanFilters": {
+          "criticalPathOnly": false,
+          "matchesOnly": false,
+          "serviceNameOperator": "=",
+          "spanNameOperator": "=",
+          "tags": [
+            {
+              "id": "052e998f-fd8",
+              "operator": "="
+            }
+          ]
         }
       },
       "pluginVersion": "11.5.2",
@@ -120,7 +70,7 @@
               "scope": "span",
               "tag": "name",
               "value": [
-                "roll"
+                "\"roll\""
               ]
             },
             {
@@ -129,7 +79,7 @@
               "scope": "resource",
               "tag": "service.name",
               "value": [
-                "diceroller.tracer"
+                "\"diceroller\""
               ]
             }
           ],
@@ -140,7 +90,7 @@
         }
       ],
       "title": "Dice Roller Traces",
-      "type": "timeseries"
+      "type": "traces"
     }
   ],
   "preload": false,
@@ -158,6 +108,6 @@
   "timezone": "browser",
   "title": "Dice Roller Traces",
   "uid": "cei3szjenwef4c",
-  "version": 3,
+  "version": 5,
   "weekStart": ""
 }
