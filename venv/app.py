@@ -5,18 +5,30 @@ from opentelemetry import metrics
 from opentelemetry.metrics import Observation
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.instrumentation.flask import FlaskInstrumentor
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
 import logging
 import json
 
 success_count_this_session = 0;
 failure_count_this_session = 0;
 
+# Flask app
+app = Flask(__name__)
+
 # Acquire a tracer
 resource = Resource(attributes={
     "service.name": "diceroller"
 })
 trace.set_tracer_provider(TracerProvider(resource=resource))
-tracer = trace.get_tracer("diceroller.tracer")
+tracer = trace.get_tracer(__name__)
+FlaskInstrumentor().instrument_app(app)
+
+# Maybe redundant with the yaml, but trying to force spans/traces to show
+otlp_exporter = OTLPSpanExporter(endpoint="http://localhost:4317", insecure=True)
+# Add the exporter to the tracer provider
+trace.get_tracer_provider().add_span_processor(BatchSpanProcessor(otlp_exporter))
 
 # Acquire a meter
 meter = metrics.get_meter("diceroller.meter")
